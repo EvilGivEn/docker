@@ -1,5 +1,5 @@
 #!/bin/sh
-
+echo "yo" > yo.txt
 # Set ARG
 PLATFORM=$1
 TAG=$2
@@ -29,19 +29,19 @@ else
 fi
 [ -z "${ARCH}" ] && echo "Error: Not supported OS Architecture" && exit 1
 
-# Download files
-V2RAY_FILE="v2ray-linux-${ARCH}.zip"
-DGST_FILE="v2ray-linux-${ARCH}.zip.dgst"
-echo "Downloading binary file: ${V2RAY_FILE}"
-echo "Downloading binary file: ${DGST_FILE}"
+# # Download files
+# V2RAY_FILE="v2ray-linux-${ARCH}.zip"
+# DGST_FILE="v2ray-linux-${ARCH}.zip.dgst"
+# echo "Downloading binary file: ${V2RAY_FILE}"
+# echo "Downloading binary file: ${DGST_FILE}"
 
-wget -O ${PWD}/v2ray.zip https://github.com/v2fly/v2ray-core/releases/download/${TAG}/${V2RAY_FILE} > /dev/null 2>&1
-wget -O ${PWD}/v2ray.zip.dgst https://github.com/v2fly/v2ray-core/releases/download/${TAG}/${DGST_FILE} > /dev/null 2>&1
+# wget -O ${PWD}/v2ray.zip https://github.com/v2fly/v2ray-core/releases/download/${TAG}/${V2RAY_FILE} > /dev/null 2>&1
+# wget -O ${PWD}/v2ray.zip.dgst https://github.com/v2fly/v2ray-core/releases/download/${TAG}/${DGST_FILE} > /dev/null 2>&1
 
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to download binary file: ${V2RAY_FILE} ${DGST_FILE}" && exit 1
-fi
-echo "Download binary file: ${V2RAY_FILE} ${DGST_FILE} completed"
+# if [ $? -ne 0 ]; then
+#     echo "Error: Failed to download binary file: ${V2RAY_FILE} ${DGST_FILE}" && exit 1
+# fi
+# echo "Download binary file: ${V2RAY_FILE} ${DGST_FILE} completed"
 
 # Check SHA512
 V2RAY_ZIP_HASH=$(sha512sum v2ray.zip | cut -f1 -d' ')
@@ -54,14 +54,15 @@ else
     echo "V2RAY_ZIP_DGST_HASH: ${V2RAY_ZIP_DGST_HASH}"
     echo " Check have not passed yet " && exit 1
 fi
-
+echo "not done" > 1.txt
 # Prepare
 echo "Prepare to use"
 unzip v2ray.zip && chmod +x v2ray
-mv v2ray /usr/bin/
-mv geosite.dat geoip.dat /usr/local/share/v2ray/
-mv config.json /etc/v2ray/config.json
+cp v2ray /usr/bin/
+cp geosite.dat geoip.dat /usr/local/share/v2ray/
+cp config.json /etc/v2ray/config.json
 
 # Clean
-rm -rf ${PWD}/*
+# rm -rf ${PWD}/*
+echo "done" > done.txt
 echo "Done"
