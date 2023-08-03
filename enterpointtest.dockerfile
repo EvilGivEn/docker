@@ -1,6 +1,0 @@
-FROM vfly:latest
-
-
-
-
-
