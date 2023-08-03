@@ -4,14 +4,13 @@ FROM --platform=${TARGETPLATFORM} ubuntu:22.04
 
 WORKDIR /tmp
 ARG TARGETPLATFORM
+ARG ISCHINA
 COPY v2ray-linux-64/v2ray "${WORKDIR}"/v2ray
 COPY v2ray-linux-64/geosite.dat "${WORKDIR}"/geosite.dat
 COPY v2ray-linux-64/geoip.dat "${WORKDIR}"/geoip.dat
 COPY v2ray-linux-64/config.json "${WORKDIR}"/config.json
 
-RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list \
-    && apt-get clean \
-    && apt-get update
+RUN if [[-z "$ISCHINA"]]; then sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list && apt-get clean && apt-get update; fi
 
 RUN set -ex \
     && apt-get install ca-certificates unzip -y \
